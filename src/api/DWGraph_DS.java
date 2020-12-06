@@ -150,12 +150,12 @@ public class DWGraph_DS implements directed_weighted_graph {
         node_data removedNode = Vertices.get(key);
         if (Vertices.containsKey(key)) {
             for (edge_data e : getE(key)) {
-                node_data neighbor = getNode(e.getDest());
-                removeEdge(removedNode.getKey(), neighbor.getKey());
-                removeEdge(neighbor.getKey(), removedNode.getKey());
+                outDegree.get(e.getDest()).remove(key);
+                inDegree.get(key).remove(e.getSrc());
+                E--;
+                MC++;
             }
             Vertices.remove(key);
-
         }
         return removedNode;
     }
