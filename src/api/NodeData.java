@@ -1,11 +1,11 @@
 package api;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class NodeData implements node_data, Serializable,Comparable<NodeData> {
+public class NodeData implements node_data, Comparable {
     private int key;
     private int tag;
     private geo_location nodeLocation;
@@ -80,9 +80,7 @@ public class NodeData implements node_data, Serializable,Comparable<NodeData> {
     public String toString() {
         return "NodeData{" +
                 "key=" + key +
-//                ", tag=" + tag +
-////                ", nodeLocation=" + nodeLocation +
-//                ", weight=" + weight +
+                ", tag=" + tag +
                 '}';
     }
 
@@ -90,9 +88,9 @@ public class NodeData implements node_data, Serializable,Comparable<NodeData> {
         node_data n0=new NodeData(1);
         System.out.println(n0);
     }
-
     @Override
-    public int compareTo(@NotNull NodeData o) {
-        return weight<o.weight?1:-1;
+    public int compareTo(Object o) {
+        NodeData n = (NodeData) o;
+        return (int) (weight - n.weight);
     }
 }

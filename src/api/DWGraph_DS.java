@@ -6,7 +6,8 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     private HashMap<Integer, node_data> Vertices;
 
-    private HashMap<Integer, HashMap<Integer, edge_data>> Edges;
+    private HashMap<Integer, HashMap<Integer, edge_data>> inDegree;
+    private HashMap<Integer, HashMap<Integer, edge_data>> outDegree;
 
     private int V;
     private int E;
@@ -14,7 +15,8 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     public DWGraph_DS() {
         Vertices = new HashMap<>();
-        Edges = new HashMap<>();
+        inDegree = new HashMap<>();
+        outDegree = new HashMap<>();
         V = 0;
         E = 0;
         MC = 0;
@@ -22,7 +24,8 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     public DWGraph_DS(directed_weighted_graph other) {
         Vertices = new HashMap<>();
-        Edges = new LinkedHashMap<>();
+        outDegree = new LinkedHashMap<>();
+        inDegree = new LinkedHashMap<>();
         for (node_data v : other.getV()) {
             node_data u = new NodeData(v);
             this.addNode(u);
@@ -35,7 +38,6 @@ public class DWGraph_DS implements directed_weighted_graph {
                 }
             }
         }
-
         this.V = other.nodeSize();
         this.E = other.edgeSize();
         this.MC = other.getMC();
@@ -50,14 +52,14 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public edge_data getEdge(int src, int dest) {
         boolean firstCondition = Vertices.containsKey(src) && Vertices.containsKey(dest);
-        boolean secondCondition = Edges.get(src).containsKey(dest);
-        boolean thirdCondition = Edges.get(dest).containsKey(src);
+        boolean secondCondition = inDegree.get(src).containsKey(dest);
+        boolean thirdCondition = outDegree.get(dest).containsKey(src);
 
         if (firstCondition) {
             if (secondCondition) {
-                return Edges.get(src).get(dest);
+                return inDegree.get(dest).get(src);
             } else if (thirdCondition) {
-                return Edges.get(dest).get(src);
+                return outDegree.get(src).get(dest);
             }
         }
         return null;
@@ -70,26 +72,41 @@ public class DWGraph_DS implements directed_weighted_graph {
             System.err.println("Already exists");
         }
         Vertices.put(n.getKey(), n);
-        Edges.put(n.getKey(), new HashMap<>());
+        inDegree.put(n.getKey(), new HashMap<>());
+        outDegree.put(n.getKey(), new HashMap<>());
+
         MC++;
+        V++;
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-        if (src != dest && getNode(dest) != null && getNode(src) != null) {
-            edge_data e = new EdgeData(src, dest, w);
-            if (!Edges.containsKey(src) || Edges.get(src) == null) {
-                Edges.put(src, new HashMap<>());
-            }
-            if (!Edges.get(src).containsKey(dest)) {
-                Edges.get(src).put(dest, e);
-            }
-            E++;
-            MC++;
-        } else {
-            return;
-        }
+//        if (src != dest && getNode(dest) != null && getNode(src) != null) {
+//            edge_data e = new EdgeData(src, dest, w);
+//            if (!Edges.containsKey(src) || Edges.get(src) == null) {
+//                Edges.put(src, new HashMap<>());
+//            }
+//            if (!Edges.get(src).containsKey(dest)) {
+//                Edges.get(src).put(dest, e);
+//            }
+//            E++;
+//            MC++;
+//        } else {
+//            return;
+//        }
+        boolean primary = Vertices.containsKey(src) && Vertices.containsKey(dest);
+        boolean nodes = Vertices.get(src) != null && Vertices.get(dest) != null;
+        boolean edge = outDegree.get(src).containsKey(dest);
 
+        if (primary && nodes && src != dest) {
+            if (!edge) {
+                edge_data e = new EdgeData(src, dest, w);
+                outDegree.get(src).put(dest, e);
+                inDegree.get(dest).put(src, e);
+                E++;
+                MC++;
+            }
+        }
 
     }
 
@@ -100,35 +117,69 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public Collection<edge_data> getE(int node_id) {
-        Collection<edge_data> neighbors = new ArrayList<>();
-        for (edge_data e : Edges.get(node_id).values()) {
-            neighbors.add(e);
-        }
-        return neighbors;
+//        Collection<edge_data> neighbors = new ArrayList<>();
+//        boolean firstCondition=inDegree.containsKey(node_id);
+//        boolean secondCondition=outDegree.containsKey(node_id);
+//
+//        if (firstCondition){
+//            for (edge_data e:inDegree.get(node_id).values()){
+//                neighbors.add(e);
+//            }
+//        }
+//
+//        if (secondCondition){
+//            for (edge_data e:inDegree.get(node_id).values()){
+//                neighbors.add(e);
+//            }
+//        }
+//        return neighbors;
+        return outDegree.get(node_id).values();
     }
 
     @Override
     public node_data removeNode(int key) {
-        node_data v = getNode(key);
+//        node_data v = getNode(key);
+//
+//        Iterator<edge_data> iterator = getE(key).iterator();
+//        while (iterator.hasNext()) {
+//            removeEdge(key, iterator.next().getDest());
+//        }
+//        Vertices.remove(key);
+//        MC++;
+//        return v;
+        node_data removedNode = Vertices.get(key);
+        if (Vertices.containsKey(key)) {
+            for (edge_data e : getE(key)) {
+                node_data neighbor = getNode(e.getDest());
+                removeEdge(removedNode.getKey(), neighbor.getKey());
+                removeEdge(neighbor.getKey(), removedNode.getKey());
+            }
+            Vertices.remove(key);
 
-        Iterator<edge_data> iterator = getE(key).iterator();
-        while (iterator.hasNext()) {
-            removeEdge(key, iterator.next().getDest());
         }
-        Vertices.remove(key);
-        MC++;
-        return v;
+        return removedNode;
     }
 
     @Override
     public edge_data removeEdge(int src, int dest) {
+//        boolean firstCondition=inDegree.get(src).containsKey(dest);
+//        edge_data e = Edges.get(src).remove(dest);
+//        if (e != null) {
+//            E--;
+//            MC++;
+//        }
+//        return e;
+        boolean outEdge = outDegree.get(src).containsKey(dest);
 
-        edge_data e = Edges.get(src).remove(dest);
-        if (e != null) {
-            E--;
-            MC++;
+        if (outEdge) {
+            edge_data inRemoved = outDegree.get(src).remove(dest);
+            if (inRemoved != null) {
+                E--;
+                MC++;
+            }
+            return inRemoved;
         }
-        return e;
+        return null;
     }
 
     @Override
@@ -152,29 +203,29 @@ public class DWGraph_DS implements directed_weighted_graph {
         for (node_data v : getV()) {
             ans += v.getKey() + ": ";
             for (edge_data e : getE(v.getKey())) {
-                ans += "{<V:" + e.getSrc() + ",E:" + e.getDest() + ",W:" + e.getWeight() + ">}";
+                ans += "{<V:" + e.getSrc() + ",E:" + e.getDest() + ",W:" + e.getWeight() + ">},";
             }
             ans += "\n";
         }
         return ans;
     }
 
-//    public static void main(String[] args) {
-//        directed_weighted_graph G = new DWGraph_DS();
-//        G.addNode(new NodeData(2));
-//        G.addNode(new NodeData(3));
-//        G.addNode(new NodeData(0));
-//        G.addNode(new NodeData(1));
-//
-//        G.connect(0, 3, 10);
-//        G.connect(0, 2, 10);
-//        G.connect(0, 1, 10);
-//
-//
-//        G.removeNode(0);
-//
-//       directed_weighted_graph o=new DWGraph_DS(G);
-//        System.out.println(G);
-//        System.out.println(o.equals(G));
-//    }
+    public static void main(String[] args) {
+        directed_weighted_graph G = new DWGraph_DS();
+        G.addNode(new NodeData(2));
+        G.addNode(new NodeData(3));
+        G.addNode(new NodeData(0));
+        G.addNode(new NodeData(1));
+
+        G.connect(0, 3, 10);
+        G.connect(0, 2, 10);
+        G.connect(0, 1, 10);
+
+
+        G.removeNode(0);
+
+        directed_weighted_graph o = new DWGraph_DS(G);
+        System.out.println(G);
+        System.out.println(o.equals(G));
+    }
 }
