@@ -41,9 +41,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return ans;
     }
 
-
-    @Override
-    public boolean isConnected() {
+    private boolean BFS(int src){
         if (algo.nodeSize() == 0 || algo.nodeSize() == 1) {
             return true;
         }
@@ -53,7 +51,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         setGraph();
         int counter = 0;
         Queue<node_data> q = new LinkedList<>();
-        node_data v = algo.getV().iterator().next();
+        node_data v = algo.getNode(src);
         v.setTag(0);
 
         q.add(v);
@@ -69,10 +67,20 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
 
+
         if (counter == algo.nodeSize()) {
             return true;
         }
         return false;
+    }
+    @Override
+    public boolean isConnected() {
+        for (node_data v:algo.getV()){
+            if (!BFS(v.getKey())){
+                return false;
+            }
+        }
+        return true;
     }
 
     private void reset() {
@@ -132,6 +140,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
 //
         G.connect(0, 1, 0);
+        G.connect(1, 0, 0);
         G.connect(0, 2, 0);
         G.connect(1, 3, 0);
         G.connect(3, 1, 0);
@@ -146,23 +155,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         G.connect(6, 2, 0);
         G.connect(2, 6, 0);
         G.connect(2, 1, 0);
-        G.removeNode(0);
-//        G.connect(1, 4, 0);
-//        G.connect(1, 2, 0);
-//        G.connect(1, 6, 0);
-//        G.connect(6, 2, 0);
-//        G.connect(6, 0, 0);
-//        G.connect(2, 3, 0);
-//        G.connect(3, 2, 0);
-//        G.connect(3, 4, 0);
-//        G.connect(4, 3, 0);
-//
-        System.out.println(G);
+
         dw_graph_algorithms algorithms = new DWGraph_Algo();
         algorithms.init(G);
         System.out.println(algorithms.isConnected());
-//
-//        System.out.println(algorithms.shortestPathDist(1, 3));
+
+
 
 
     }
