@@ -4,7 +4,7 @@ import java.util.List;
  * This interface represents a Directed (positive) Weighted Graph Theory Algorithms including:
  * 0. clone(); (copy)
  * 1. init(graph);
- * 2. isConnected(); // strongly (all ordered pais connected)
+ * 2. isConnected(); // strongly (all ordered pairs connected)
  * 3. double shortestPathDist(int src, int dest);
  * 4. List<node_data> shortestPath(int src, int dest);
  * 5. Save(file); // JSON file

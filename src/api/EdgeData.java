@@ -1,6 +1,5 @@
 package api;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -83,9 +82,7 @@ public class EdgeData implements edge_data, Serializable,Comparable<EdgeData> {
                 '}';
     }
 
-    public static void main(String[] args) {
-        edge_data d=new EdgeData(0,1,10);
-    }
+
 
     @Override
     public int compareTo( EdgeData o) {
