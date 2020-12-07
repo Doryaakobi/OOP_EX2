@@ -3,6 +3,8 @@ package api;
 
 
 
+import gameClient.util.Point3D;
+
 import java.util.Objects;
 
 public class NodeData implements node_data, Comparable {
@@ -14,6 +16,7 @@ public class NodeData implements node_data, Comparable {
 
     public NodeData(int id) {
         this.key = id;
+        this.nodeLocation = new Point3D(0,0,0);
     }
 
     public NodeData(node_data other) {
