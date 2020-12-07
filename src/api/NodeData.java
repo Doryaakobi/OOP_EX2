@@ -2,7 +2,7 @@ package api;
 
 
 
-import java.io.Serializable;
+
 import java.util.Objects;
 
 public class NodeData implements node_data, Comparable {
@@ -81,6 +81,7 @@ public class NodeData implements node_data, Comparable {
         return "NodeData{" +
                 "key=" + key +
                 ", tag=" + tag +
+                ", weight=" + weight +
                 '}';
     }
 
