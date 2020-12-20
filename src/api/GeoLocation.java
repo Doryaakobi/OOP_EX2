@@ -6,6 +6,19 @@ public class GeoLocation implements geo_location {
     private double y;
     private double z;
 
+    public GeoLocation(double X, double Y, double Z) {
+        x=X;
+        y=Y;
+        z=Z;
+    }
+    public GeoLocation(geo_location g) {
+        this.x = g.x();
+        this.y = g.y();
+        this.z = g.z();
+    }
+
+
+
     @Override
     public double x() {
         return x;
