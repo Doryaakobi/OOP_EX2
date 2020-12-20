@@ -30,10 +30,10 @@ public class MyGame implements Runnable {
     public static MyFrame window;
 
     public MyGame(String level) {
-        int after_parse;
+        int p;
         try {
-            after_parse = Integer.parseInt(level);
-           myGameLevel = after_parse;
+            p = Integer.parseInt(level);
+           myGameLevel = p;
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
