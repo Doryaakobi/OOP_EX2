@@ -2,6 +2,7 @@ package api;
 
 import java.util.*;
 
+
 public class DWGraph_DS implements directed_weighted_graph {
 
     private HashMap<Integer, node_data> Vertices;
@@ -68,9 +69,9 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-        if (Vertices.containsKey(n.getKey())) {
-            System.err.println("Already exists");
-        }
+//        if (Vertices.containsKey(n.getKey())) {
+//            System.err.println("Already exists");
+//        }
         Vertices.put(n.getKey(), n);
         inDegree.put(n.getKey(), new HashMap<>());
         outDegree.put(n.getKey(), new HashMap<>());

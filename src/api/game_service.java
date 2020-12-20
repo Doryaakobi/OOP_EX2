@@ -56,7 +56,7 @@ public interface game_service extends Serializable{
 	/**
 	 * Stops the game, after this method the isRunning() will return false
 	 * @return
-	 */
+	 */	
 	public long stopGame();
 	/**
 	 * This method is the main logical functionality, allows the client algorithm

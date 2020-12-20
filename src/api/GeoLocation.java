@@ -6,12 +6,6 @@ public class GeoLocation implements geo_location {
     private double y;
     private double z;
 
-    public GeoLocation(){
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
-    }
-
     @Override
     public double x() {
         return x;
@@ -25,18 +19,6 @@ public class GeoLocation implements geo_location {
     @Override
     public double z() {
         return z;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
     }
 
     @Override
