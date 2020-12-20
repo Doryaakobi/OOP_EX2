@@ -2,6 +2,7 @@ package api;
 
 import java.util.*;
 
+
 public class DWGraph_DS implements directed_weighted_graph {
 
     private HashMap<Integer, node_data> Vertices;
@@ -53,13 +54,10 @@ public class DWGraph_DS implements directed_weighted_graph {
     public edge_data getEdge(int src, int dest) {
         boolean firstCondition = Vertices.containsKey(src) && Vertices.containsKey(dest);
         boolean secondCondition = inDegree.get(src).containsKey(dest);
-        boolean thirdCondition = outDegree.get(dest).containsKey(src);
 
         if (firstCondition) {
             if (secondCondition) {
                 return inDegree.get(dest).get(src);
-            } else if (thirdCondition) {
-                return outDegree.get(src).get(dest);
             }
         }
         return null;
@@ -68,9 +66,9 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public void addNode(node_data n) {
-        if (Vertices.containsKey(n.getKey())) {
-            System.err.println("Already exists");
-        }
+//        if (Vertices.containsKey(n.getKey())) {
+//            System.err.println("Already exists");
+//        }
         Vertices.put(n.getKey(), n);
         inDegree.put(n.getKey(), new HashMap<>());
         outDegree.put(n.getKey(), new HashMap<>());
