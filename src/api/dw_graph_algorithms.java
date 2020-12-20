@@ -1,5 +1,6 @@
 package api;
 import java.util.List;
+
 /**
  * This interface represents a Directed (positive) Weighted Graph Theory Algorithms including:
  * 0. clone(); (copy)

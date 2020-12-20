@@ -1,8 +1,6 @@
 package api;
 
 
-
-
 import gameClient.util.Point3D;
 
 import java.util.Objects;
@@ -16,9 +14,12 @@ public class NodeData implements node_data, Comparable {
 
     public NodeData(int id) {
         this.key = id;
-        this.nodeLocation = new Point3D(0,0,0);
+        this.nodeLocation = new Point3D(0, 0, 0);
     }
-
+    public NodeData(int id,geo_location g) {
+        this.key=id;
+        nodeLocation=g;
+    }
     public NodeData(node_data other) {
         this.key = other.getKey();
         this.info = other.getInfo();
@@ -88,10 +89,6 @@ public class NodeData implements node_data, Comparable {
                 '}';
     }
 
-    public static void main(String[] args) {
-        node_data n0=new NodeData(1);
-        System.out.println(n0);
-    }
     @Override
     public int compareTo(Object o) {
         NodeData n = (NodeData) o;

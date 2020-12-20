@@ -7,6 +7,14 @@ import org.json.JSONObject;
 import java.io.*;
 import java.util.*;
 
+
+import com.google.gson.*;
+        import gameClient.util.Point3D;
+        import org.json.JSONObject;
+
+        import java.io.*;
+        import java.util.*;
+
 public class DWGraph_Algo implements dw_graph_algorithms {
 
     private directed_weighted_graph algo;
@@ -220,54 +228,4 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             v.setTag(-1);
         }
     }
-
-    public static void main(String[] args) {
-        directed_weighted_graph G = new DWGraph_DS();
-        G.addNode(new NodeData(0));
-        G.addNode(new NodeData(1));
-        G.addNode(new NodeData(2));
-        G.addNode(new NodeData(3));
-        G.addNode(new NodeData(4));
-        G.addNode(new NodeData(5));
-        G.addNode(new NodeData(6));
-        G.addNode(new NodeData(7));
-
-
-        G.connect(0, 1, 8);
-        G.connect(0, 2, 5);
-        G.connect(0, 4, 3);
-
-
-        G.connect(1, 2, 3);
-        G.connect(1, 5, 5);
-
-        G.connect(2, 4, 7);
-        G.connect(2, 6, 2);
-
-
-//        G.connect(3, 5, 8);
-        G.connect(3, 7, 5);
-
-
-        G.connect(5, 3, 8);
-
-
-        G.connect(6, 7, 8);
-        G.connect(6, 2, 5);
-
-
-//        G.connect(7, 5, 6);
-
-
-        System.out.println(G);
-        DWGraph_Algo algorithms = new DWGraph_Algo();
-        algorithms.init(G);
-        System.out.println(algorithms.shortestPathDist(0, 7));
-        algorithms.save("MyGraph.txt");
-        DWGraph_Algo g2 = new DWGraph_Algo();
-        g2.load("MyGraph.txt");
-        System.out.println(g2);
-
-    }
-
 }

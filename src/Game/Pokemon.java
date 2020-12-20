@@ -1,6 +1,7 @@
 package Game;
 
-import api.edge_data;
+import api.*;
+
 import org.json.JSONObject;
 
 @SuppressWarnings("ALL")

@@ -5,6 +5,8 @@ import api.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import gameClient.CL_Agent;
+import gameClient.CL_Pokemon;
 import org.json.JSONException;
 import org.json.JSONObject;
 
